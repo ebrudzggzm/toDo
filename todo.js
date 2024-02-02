@@ -22,18 +22,19 @@ function eventListeners() {
 //yeni to do ekleme
 function addTodo() {
   const newTodo = todoinput.value.trim();
+  console.log(newTodo)
   if (newTodo == null || newTodo == "") {
-    showAlert("warning", "Lütfen bir to do ekleyiniz.");
+    showAlert("warning", "Please add a to do.");
   } else {
     //arayüze ekleme
     addTodoToUI(newTodo);
     //storage a ekleme
     addTodoToStorage(newTodo);
     //uyarı gösterme
-    showAlert("success", "to do eklendi");
+    showAlert("success", "to do is added.");
   }
 
-  //e.preventDefault();  eventi submit  olursa farklı bir sayfaya yönlendrimesini engellemek için yazılır.
+  //e.preventDefault();  eventi submit  ise farklı bir sayfaya yönlendrimesini engellemek için kullanırız.
 }
 //addTodo()  metodu ile hem storage a hem aryüze eklenmelidir,o nedenle,iki function tanımlayacağım.
 function pageLoaded() {
@@ -56,7 +57,7 @@ function filter(e) {
       }
     });
   } else {
-    showAlert("warning", "Filtreleme için en az bir to do bulunmalıdır.");
+    showAlert("warning", "There must be a to do for search!");
   }
 }
 
@@ -135,9 +136,9 @@ function deleteAllTodos(e) {
       todos = [];
       localStorage.setItem("todos", JSON.stringify(todos));
       rowCount = 0;
-      showAlert("success", "Tüm to do lar silindi.");
+      showAlert("success", "All to dos are deleted.");
     } else {
-      showAlert("warning", "Silmek için  en az bir to do olmalıdır.");
+      showAlert("warning", "There must be a to do for delete!");
     }
 
     console.log(todoListesi);
@@ -169,15 +170,16 @@ function deleteTodo(e) {
     //storagedan silme
     removedTodoToStorage(removedElement);
     console.log(removedElement);
-    showAlert("success", "Todo başarıyla silindi...");
+    showAlert("success", "To do is deleted successfuly.");
   }
 }
 
 function removedTodoToStorage(removeTodo) {
   checkTodosFromStorage();
   console.log(todos);
+  const removedTodoText = removeTodo.children[1].textContent;
   todos.forEach(function (todo, index) {
-    if (removeTodo === todo) {
+    if (removedTodoText === todo) {
       todos.splice(index, 1);
     }
   });
@@ -185,10 +187,6 @@ function removedTodoToStorage(removeTodo) {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-//todo rowu editleme
-// function editTodo(e, addTodoToUI) {
-//   console.log(e.target);
-// }
 
 function showAlert(type, message) {
   const div = document.createElement("div");
